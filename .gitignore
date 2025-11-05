@@ -1,0 +1,43 @@
+# 作業系統生成的文件
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# 編輯器文件
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 臨時文件
+*.log
+*.tmp
+temp/
+tmp/
+
+# 備份文件
+*.bak
+*.backup
+*~
+
+# Node modules (如果使用 npm)
+node_modules/
+package-lock.json
+yarn.lock
+
+# 環境變數文件
+.env
+.env.local
+
+# 測試文件
+test/
+tests/
+*.test.js
+*.spec.js
+
+
