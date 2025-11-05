@@ -321,56 +321,52 @@ window.addEventListener('load', () => {
 });
 
 // ========== 響應式選單（移動裝置）==========
-function createMobileMenu() {
-    const navbar = document.querySelector('.navbar .container');
-    const navLinks = document.querySelector('.nav-links');
+// 漢堡選單功能
+const initMobileMenu = () => {
+    const menuToggle = document.getElementById('mobileMenuToggle');
+    const navLinks = document.getElementById('navLinks');
     
-    // 創建漢堡選單按鈕
-    const menuToggle = document.createElement('button');
-    menuToggle.className = 'mobile-menu-toggle';
-    menuToggle.innerHTML = '☰';
-    menuToggle.style.cssText = `
-        display: none;
-        background: transparent;
-        border: none;
-        color: white;
-        font-size: 1.5rem;
-        cursor: pointer;
-        padding: 0.5rem;
-    `;
-    
-    // 在移動裝置上顯示
-    if (window.innerWidth <= 968) {
-        menuToggle.style.display = 'block';
-        navbar.insertBefore(menuToggle, navLinks);
-        
+    if (menuToggle && navLinks) {
+        // 點擊漢堡選單切換
         menuToggle.addEventListener('click', () => {
-            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
-            navLinks.style.flexDirection = 'column';
-            navLinks.style.position = 'absolute';
-            navLinks.style.top = '100%';
-            navLinks.style.left = '0';
-            navLinks.style.right = '0';
-            navLinks.style.background = 'rgba(15, 23, 42, 0.98)';
-            navLinks.style.padding = '1rem';
-            navLinks.style.borderRadius = '0 0 0.5rem 0.5rem';
+            menuToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+        
+        // 點擊選單項目後關閉選單
+        const navItems = navLinks.querySelectorAll('a');
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                menuToggle.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+        
+        // 點擊選單外部關閉選單
+        document.addEventListener('click', (e) => {
+            if (!menuToggle.contains(e.target) && !navLinks.contains(e.target)) {
+                menuToggle.classList.remove('active');
+                navLinks.classList.remove('active');
+            }
         });
     }
+};
+
+// 在 DOM 載入後初始化
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMobileMenu);
+} else {
+    initMobileMenu();
 }
 
-// 在 DOM 載入後創建移動選單
-document.addEventListener('DOMContentLoaded', createMobileMenu);
-
-// 視窗大小改變時重新檢查
+// 視窗大小改變時重置選單狀態
 window.addEventListener('resize', () => {
+    const menuToggle = document.getElementById('mobileMenuToggle');
+    const navLinks = document.getElementById('navLinks');
+    
     if (window.innerWidth > 968) {
-        const navLinks = document.querySelector('.nav-links');
-        if (navLinks) {
-            navLinks.style.display = 'flex';
-            navLinks.style.flexDirection = 'row';
-            navLinks.style.position = 'static';
-            navLinks.style.background = 'transparent';
-        }
+        if (menuToggle) menuToggle.classList.remove('active');
+        if (navLinks) navLinks.classList.remove('active');
     }
 });
 
